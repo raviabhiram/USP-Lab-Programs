@@ -1,0 +1,85 @@
+This program shows how to lock a part of a file, and unlock it.
+
+The system calls and library functions used are:-
+
+*open()
+
+       open - open and possibly create a file
+
+       #include <sys/types.h>
+       #include <sys/stat.h>
+       #include <fcntl.h>
+
+       int open(const char *pathname, int flags);
+       int open(const char *pathname, int flags, mode_t mode);
+
+RETURN VALUE
+       open() return the new file descriptor, or -1 if an error occurred (in which case, errno  is  set  appropriately).
+
+
+
+*fcntl()
+
+       fcntl - manipulate file descriptor
+
+       #include <unistd.h>
+       #include <fcntl.h>
+
+       int fcntl(int fd, int cmd, ... /* arg */ );
+
+RETURN VALUE
+       For a successful call, the return value depends on the operation:
+
+       F_DUPFD  The new descriptor.
+
+       F_GETFD  Value of file descriptor flags.
+
+       F_GETFL  Value of file status flags.
+
+       F_GETLEASE
+                Type of lease held on file descriptor.
+
+       F_GETOWN Value of descriptor owner.
+
+       F_GETSIG Value of signal sent when read or write  becomes  possi‐
+                ble, or zero for traditional SIGIO behavior.
+
+       F_GETPIPE_SZ, F_SETPIPE_SZ
+                The pipe capacity.
+
+       F_GET_SEALS
+                A  bit mask identifying the seals that have been set for
+                the inode referred to by fd.
+
+       All other commands
+                Zero.
+
+       On error, -1 is returned, and errno is set appropriately.
+
+
+*lseek()
+
+       lseek - reposition read/write file offset
+
+       #include <sys/types.h>
+       #include <unistd.h>
+
+       off_t lseek(int fd, off_t offset, int whence);
+
+RETURN VALUE
+       Upon  successful completion, lseek() returns the resulting offset location as measured in bytes from the beginning of the file. On error, the value (off_t) -1 is returned and errno is set to indicate the error.
+
+
+*read()
+
+       read - read from a file descriptor
+
+       #include <unistd.h>
+
+       ssize_t read(int fd, void *buf, size_t count);
+
+RETURN VALUE
+       On success, the number of bytes read is returned (zero indicates end of file), and the file position is advanced by this number. It is not an error if this number is smaller than the number of bytes requested; this may happen for example because fewer bytes are actually available right now (maybe because we were close to end-of-file, or because we are reading from a pipe, or from a terminal), or because read() was interrupted by a signal. On error, -1 is returned, and errno is set appropriately. In this case, it is left unspecified whether the file position (if  any) changes.
+
+
+
